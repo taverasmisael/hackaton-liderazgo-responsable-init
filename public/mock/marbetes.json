@@ -1,0 +1,37 @@
+[
+  {
+    "city": "Ramon Torres",
+    "population": "8,175,133",
+    "image": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Above_Gotham.jpg/240px-Above_Gotham.jpg",
+    "state": "New York",
+    "latitude": 18.4761954,
+    "longitude": -69.9125554
+  },
+  {
+    "city": "Romeo Santos",
+    "population": "3,792,621",
+    "image":
+      "http://upload.wikimedia.org/wikipedia/commons/thumb/5/57/LA_Skyline_Mountains2.jpg/240px-LA_Skyline_Mountains2.jpg",
+    "state": "California",
+    "latitude": 18.4761789,
+    "longitude": -69.9129114
+  },
+  {
+    "city": "Teodoro Reyes",
+    "population": "2,695,598",
+    "image":
+      "http://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2008-06-10_3000x1000_chicago_skyline.jpg/240px-2008-06-10_3000x1000_chicago_skyline.jpg",
+    "state": "Illinois",
+    "latitude": 18.4596777,
+    "longitude": -69.912542
+  },
+  {
+    "city": "Frank Reyes",
+    "population": "2,100,263",
+    "image":
+      "http://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg/240px-Aerial_views_of_the_Houston%2C_Texas%2C_28005u.jpg",
+    "state": "Texas",
+    "latitude": 18.473805,
+    "longitude": -69.8851741
+  }
+]
