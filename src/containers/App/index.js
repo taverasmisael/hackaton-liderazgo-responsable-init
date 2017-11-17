@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import MapGL, { Marker } from 'react-map-gl'
+import MapGL, { Marker, Popup } from 'react-map-gl'
 
 import CityPin from '@components/CityPin'
+import LabelInfo from '@components/LabelInfo'
 
 import { LoadMarkers } from '@services/api'
 
@@ -10,8 +11,8 @@ const TOKEN = 'pk.eyJ1IjoidGF2ZXJhc21pc2FlbCIsImEiOiJjamEzenBlcjM5dTFiMzNsZ2JhcW
 class App extends Component {
   state = {
     viewport: {
-      latitude: 18.4800199,
-      longitude: -69.982031,
+      latitude: 18.4708059,
+      longitude: -69.886825,
       zoom: 12,
       bearing: 0,
       pitch: 0,
@@ -22,15 +23,26 @@ class App extends Component {
     locations: []
   }
   componentDidMount() {
-    window.addEventListener('resize', this._resize)
-    this._resize()
+    window.addEventListener('resize', this.resize)
+    this.resize()
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      const { longitude, latitude } = coords
+      this.setState(state => ({
+        ...state,
+        viewport: {
+          ...state.viewport,
+          longitude,
+          latitude
+        }
+      }))
+    })
     LoadMarkers()
       .then(locations => this.setState({ locations }))
       .catch(err => {
         console.error('ERROR LOADING MARKERS: ', err)
       })
   }
-  _resize = () => {
+  resize = () => {
     this.setState({
       viewport: {
         ...this.state.viewport,
@@ -40,7 +52,25 @@ class App extends Component {
     })
   }
 
-  _renderCityMarker = (city, index) => {
+  renderPopup = () => {
+    const { popupInfo } = this.state
+
+    return (
+      popupInfo && (
+        <Popup
+          tipSize={5}
+          anchor="top"
+          longitude={popupInfo.longitude}
+          latitude={popupInfo.latitude}
+          onClose={() => this.setState({ popupInfo: null })}
+        >
+          <LabelInfo info={popupInfo} />
+        </Popup>
+      )
+    )
+  }
+
+  renderCityMarker = (city, index) => {
     return (
       <Marker key={`marker-${index}`} longitude={city.longitude} latitude={city.latitude}>
         <CityPin size={20} onClick={() => this.setState({ popupInfo: city })} />
@@ -48,7 +78,7 @@ class App extends Component {
     )
   }
 
-  _updateViewport = viewport => {
+  updateViewport = viewport => {
     this.setState({ viewport })
   }
   render() {
@@ -56,11 +86,12 @@ class App extends Component {
     return (
       <MapGL
         {...viewport}
-        onViewportChange={this._updateViewport}
+        onViewportChange={this.updateViewport}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken={TOKEN}
       >
-        {locations.map(this._renderCityMarker)}
+        {locations.map(this.renderCityMarker)}
+        {this.renderPopup()}
       </MapGL>
     )
   }
